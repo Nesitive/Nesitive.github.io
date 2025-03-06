@@ -57,7 +57,7 @@ images.forEach((item, i) => {
 document.getElementById("splash").onkeydown = (event) => {
     if (PageLoaded == false && event.key.toLowerCase() == "o") {
         document.getElementById("s-controls").innerHTML = "Offline mode activated";
-        document.getElementById("offline-mode").innerHTML = ".beau-ui { border: 0.125rem solid #fff; }";
+        document.getElementById("offline-mode").innerHTML = ".ui { border: 0.125rem solid #fff; }";
         setTimeout(() => {
             FadeSplash();
         }, 600);
