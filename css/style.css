@@ -1,0 +1,99 @@
+:root {
+    background-color: #555;
+    font-size: 32px;
+    color: #fff;
+}
+
+.ui {
+    background-color: rgba(0, 0, 0, 0.60);
+    border: 0.125rem solid #000;
+    backdrop-filter: blur(0.125rem);
+}
+
+#background-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100svw;
+    height: 100svh;
+    object-fit: cover;
+    z-index: -999;
+}
+
+#left-menu {
+    position: absolute;
+    left: 0.25rem;
+    padding: 0px 0.25rem;
+}
+
+#right-menu {
+    display: flex;
+}
+
+#right-menu>a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 300;
+    padding: 0px 0.25rem;
+}
+
+#right-menu>a:nth-child(1) {
+    border-top: none;
+    border-left: none;
+}
+
+#right-menu>a:nth-last-child(1) {
+    border-right: none;
+}
+
+/* Mobile */
+@media screen and (max-width: 100svh) {
+    :root {
+        font-size: 6vmin;
+    }
+
+    #left-menu {
+        bottom: 0.25rem;
+    }
+
+    #right-menu {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 100svw;
+        height: 100svh;
+        border: none;
+        flex-direction: column;
+    }
+
+    #right-menu>a {
+        display: block;
+        padding: 0.5rem;
+        border-top: 0.03125rem solid #000;
+        border-bottom: 0.03125rem solid #000;
+    }
+
+    #right-menu>a:nth-last-child(1) {
+        border-bottom: 0.0625rem solid #000;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width: 100svh) {
+    #left-menu {
+        top: 0.25rem;
+    }
+
+    #right-menu-btn {
+        display: none;
+    }
+
+    #right-menu {
+        float: right;
+    }
+
+    #right-menu>a {
+        border-left: 0.03125rem solid #000;
+        border-right: 0.03125rem solid #000;
+    }
+}
