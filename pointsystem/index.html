@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Point System</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+	<style id="offline-mode">
+	</style>
+	<style id="face-color">
+		.face { background-color: hsl(200, 100%, 50%) }
+	</style>
+	<style id="transparency"></style>
+	<style id="transition-speed-style"></style>
+	<style id="light-mode-style"></style>
+</head>
+
+<body>
+	<div id="topbar">
+		<div class="bar-mid-section" id="by-name-toolbar">
+			<button class="ui fl" id="names-per-row">
+				<div>Names/row:</div>
+				<input type="range" id="names-per-row-slider">
+				<div id="names-per-row-value">5</div>
+			</button>
+		</div>
+		<div class="bar-mid-section" id="by-subject-toolbar">
+			<button class="ui fl" id="name-list-btn" onclick="SetNameListSidebarState(1)">Name List</button>
+			<button class="ui fl" id="edit-subjects-criteria-btn" onclick="SetDialogState('edit-name-dialog', 1)">Edit Subjects and Criteria</button>
+		</div>
+		<div class="bar-mid-section" id="clips-toolbar">
+			<button class="ui fl" onclick="SetDialogState('add-name-dialog', 1)">Add New</button>
+			<div class="ui fl hidden" id="rename-drop-zone">Drag here to rename</div>
+			<div class="ui fl hidden" id="remove-drop-zone">Drag here to remove</div>
+		</div>
+		<button class="ui fr" onclick="SetSettingsDialogState(1)">Settings</button>
+	</div>
+	<div id="master">
+		<div id="main-view">
+			<button class="ui entry" id="add-entry" onclick="SetDialogState('add-name-dialog', 1)">
+				<div class="color">+</div>
+				<div class="name">Add New</div>
+			</button>
+		</div>
+		<div class="ui hidden" id="name-view">
+			<div id="no-name-selected">
+				<div class="bold">No Name Selected</div>
+				<div>Use the <i>Name List</i> button to select a name.</div>
+			</div>
+		</div>
+		<div class="ui hidden" id="clips-view">
+			<div id="no-categories">
+				<div class="bold">No Tiers Specified</div>
+				<div>Specify a list of tiers under Settings > Clips.</div>
+			</div>
+		</div>
+	</div>
+	<div id="name-list-sidebar-container">
+		<div class="ui" id="name-list-sidebar">
+			
+		</div>
+	</div>
+	<div id="bottom-bar">
+		<button class="ui" onclick="ScrollMasterToTop()">Scroll to Top</button>
+		<button class="ui" onclick="ToggleReach()">Toggle Reach</button>
+	</div>
+	<div id="changer" style="pointer-events: none;">
+		<div class="changer-circle-container">
+			<button class="changer-circle"></button>
+		</div>
+	</div>
+	<div id="settings-container">
+		<div class="ui" id="settings">
+			<div id="settings-sidebar">
+				<div class="bold">
+					<button onclick="SetSettingsDialogState(0)">X</button>
+					<div class="bold">Settings</div>
+				</div>
+				<div class="radio">
+					<button class="radio-item" onclick="ActivateSettingsPage('system')">System</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('subjects-and-criteria')">Subjects & Criteria</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('colors')">Colors</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('clips')">Clips</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('faces')">Faces</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('numbers')">Numbers</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('interface')">Interface</button>
+					<button class="radio-item" onclick="ActivateSettingsPage('save-load')">Import/Export Data</button>
+					<div class="radio-highlight"></div>
+				</div>
+			</div>
+			<div id="settings-body">
+				<div class="settings-page" id="system-settings-page">
+					<div class="ui">
+						<div class="bold">System to use:</div>
+						<div class="radio" id="settings-system-systemtouse">
+							<button class="radio-item">Colors</button>
+							<button class="radio-item">Clips</button>
+							<button class="radio-item">Faces</button>
+							<button class="radio-item">Numbers</button>
+							<div class="radio-highlight"></div>
+						</div>
+					</div>
+					<div class="ui pad">
+						<div class="bold">Default Percentage</div>
+						<div class="sub">When a new name is added to the list, it will be given this percentage.<br>A name's percentage is used to determine its color, face, or number.</div>
+						<div class="slider-value-container" id="settings-system-defaultpointssingle-container">
+							<input type="range" id="settings-system-defaultpointssingle">
+							<div class="slider-value" data-suffix="%">50%</div>
+						</div>
+					</div>
+					<div class="ui">
+						<div class="bold">Point Mode</div>
+						<div class="radio" id="settings-system-pointsmode">
+							<button class="radio-item" onclick="SetPointsMode('name')">By Name</button>
+							<button class="radio-item" onclick="SetPointsMode('subject')">By Name and Subject</button>
+							<button class="radio-item" onclick="SetPointsMode('criteria')">By Name, Subject, and Criteria</button>
+							<div class="radio-highlight"></div>
+						</div>
+					</div>
+				</div>
+				<div class="settings-page" id="subjects-and-criteria-settings-page">
+					<div class="ui pad">
+						<div class="bold">Default Subjects</div>
+						<div class="sub">Enter a list of subjects, one per line. Whenever you add a new name, you will have the option to use the list below or type in a custom list.</div>
+						<textarea name="" id="subjects-input"></textarea>
+					</div>
+					<div class="ui pad">
+						<div class="bold">Default Criteria</div>
+						<div class="sub">Enter a list of criteria, one per line. Whenever you add a new name, you will have the option to use the list below or type in a custom list.</div>
+						<textarea name="" id="criteria-input"></textarea>
+					</div>
+				</div>
+				<div class="settings-page" id="colors-settings-page">
+					<div class="ui" id="settings-colors-colors-container">
+						<div class="bold">Colors</div>
+						<div id="settings-colors-colors" style="display: flex;"></div>
+						<div class="sub drag-action">Click and hold a color to change its position or delete it.</div>
+					</div>
+				</div>
+				<div class="settings-page" id="clips-settings-page">
+					<div class="ui pad">
+						<div class="bold">Clip Tiers</div>
+						<div class="sub">Enter a list of clip tiers, one per line, from best to worst.</div>
+						<textarea name="" id="clips-categories-input"></textarea>
+						<div id="apply-categories-btn-container">
+							<button onclick="ApplyClipsTiers()">Apply</button>
+						</div>
+					</div>
+					<div class="ui pad bool-value-container">
+						<div>
+							<div class="bold">Use Color Settings</div>
+							<div class="sub">Colors specified in the Colors point system will used as the background colors for tier names.</div>
+						</div>
+						<button class="checkbox" id="settings-clips-usecolors"></button>
+					</div>
+				</div>
+				<div class="settings-page" id="faces-settings-page">
+					<div class="ui" id="settings-faces-steps-container">
+						<div class="bold">Steps</div>
+						<div class="slider-value-container">
+							<input type="range" min=2 max=10 id="settings-faces-steps">
+							<div class="slider-value" data-suffix="">10</div>
+						</div>
+						<div id="settings-faces-steps-preview"></div>
+					</div>
+					<div class="ui" id="settings-faces-color-container">
+						<div class="bold">Face Color</div>
+						<div class="slider-value-container">
+							<input type="range" min=0 default=180 max=360 class="hue-slider" id="settings-faces-color">
+							<div class="slider-value" data-suffix="">None</div>
+						</div>
+					</div>
+				</div>
+				<div class="settings-page" id="numbers-settings-page">
+					<div class="ui number-value-container">
+						<div class="bold">Minimum Value</div>
+						<input type="number" placeholder="0" id="settings-numbers-min">
+					</div>
+					<div class="ui number-value-container">
+						<div class="bold">Maximum Value</div>
+						<input type="number" placeholder="100" id="settings-numbers-max">
+					</div>
+				</div>
+				<div class="settings-page" id="interface-settings-page">
+					<div class="ui bool-value-container">
+						<div class="bold">Blur Effect</div>
+						<button class="checkbox" id="settings-interface-blur"></button>
+					</div>
+					<div class="ui bool-value-container">
+						<div class="bold">Light Mode</div>
+						<button class="checkbox" id="settings-interface-lightmode"></button>
+					</div>
+					<div class="ui">
+						<div class="bold">Transition Speed</div>
+						<div class="slider-value-container">
+							<input type="range" min=0 default=0.2 max=2 step=0.1 id="settings-interface-transitionspeed">
+							<div class="slider-value" data-suffix="s">None</div>
+						</div>
+					</div>
+				</div>
+				<div class="settings-page" id="save-load-settings-page">
+					<button onclick="ExportData()">Export All Data to File</button>
+					<button onclick="ImportData()">Import All Data from File</button>
+					<div class="sub">To import your data on Firefox or another Firefox-based browser, use the input below to select a file, and then press the <i>Import All Data from File</i> button.</div>
+					<input type="file" id="import-data-file-input">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="dialog-container">
+		<div class="ui dialog" id="add-name-dialog">
+			<div class="dialog-title">Add Name</div>
+			<div class="dialog-inner">
+				<input type="text" class="first-item" id="add-name-input" placeholder="Enter a name">
+				<div id="add-name-textareas">
+					<div class="sub">Subjects (leave blank for default)</div>
+					<div class="sub">Criteria (leave blank for default)</div>
+					<textarea id="add-name-subjects"></textarea>
+					<textarea id="add-name-criteria"></textarea>
+				</div>
+			</div>
+			<div class="dialog-buttons">
+				<button onclick="AddName()">Add</button>
+				<button class="last-item" onclick="SetDialogState('add-name-dialog', 0)">Cancel</button>
+			</div>
+		</div>
+		<div class="ui dialog" id="edit-name-dialog">
+			<div class="dialog-title">Edit Name</div>
+			<div class="dialog-inner">
+				<div id="edit-name-textareas">
+					<div class="sub">Subjects (leave blank for default)</div>
+					<div class="sub">Criteria (leave blank for default)</div>
+					<textarea id="edit-name-subjects"></textarea>
+					<textarea id="edit-name-criteria"></textarea>
+				</div>
+			</div>
+			<div class="dialog-buttons">
+				<button onclick="ApplyNewSubjects()">Apply</button>
+				<button onclick="SetDialogState('edit-name-dialog', 0)">Cancel</button>
+			</div>
+		</div>
+		<div class="ui dialog" id="rename-name-dialog">
+			<div class="dialog-inner">
+				<div id="rename-name-text"></div>
+				<input type="text" id="rename-name-input">
+			</div>
+			<div class="dialog-buttons">
+				<button onclick="RenameName()">Rename</button>
+				<button onclick="SetDialogState('rename-name-dialog', 0)">Cancel</button>
+			</div>
+		</div>
+		<div class="ui dialog" id="remove-name-dialog">
+			<div class="dialog-inner">
+				<div id="remove-name-text">Remove (some name) from the list?</div>
+			</div>
+			<div class="dialog-buttons">
+				<button onclick="RemoveName()">Remove</button>
+				<button onclick="SetDialogState('remove-name-dialog', 0)">Cancel</button>
+			</div>
+		</div>
+		<div class="ui dialog" id="error-dialog">
+			<div class="dialog-inner" id="error-inner">
+				<div id="error-octagon">
+					<div class="error-octagon-side"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(45deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(90deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(135deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(180deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(225deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(270deg);"></div>
+					<div class="error-octagon-side" style="transform: rotateZ(315deg);"></div>
+					<div class="error-octagon-x-leg" id="left-leg"></div>
+					<div class="error-octagon-x-leg" id="right-leg"></div>
+				</div>
+				<div id="error-text">This is an error message.</div>
+			</div>
+			<div class="dialog-buttons">
+				<button onclick="SetDialogState('error-dialog', 0)">OK</button>
+			</div>
+		</div>
+	</div>
+	<div id="banner" style="z-index: 1001;">
+		<div id="banner-text">
+			<span class="bold" id="banner-title">JavaScript Disabled</span><span id="banner-msg">This program requires JavaScript to function properly.</span>
+		</div>
+	</div>
+    <script src="js/script.js"></script>
+	<div id="selected"></div>
+	<div id="splash">
+		<div id="splash-bar-wrap">
+			<div id="splash-prog">0%</div>
+			<div id="splash-bar"></div>
+		</div>
+		<div id="splash-msg">Loading</div><br>
+		<div id="s-controls">O: Offline Mode</div>
+	</div>
+    <script src="js/splash.js"></script>
+</body>
+
+</html>

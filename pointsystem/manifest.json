@@ -1,0 +1,14 @@
+{
+    "name": "Point System",
+    "short_name": "Point System",
+    "description": "[Alpha Version] Keep track of student behaviors (I'll update the icon later)",
+    "lang": "en-US",
+    "start_url": "index.html",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "img/icons/256x256.png",
+            "sizes": "256x256"
+        }
+    ]
+}
