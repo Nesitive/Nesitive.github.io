@@ -1,15 +1,6 @@
 // Elements
-RightMenuDiv = document.getElementById("right-menu");
+DesignImage = document.getElementById("design-image");
 
 function SummonEyesore() {
     document.getElementById("design-image").classList.remove("hidden");
-}
-
-function ToggleMenu() {
-    if (RightMenuDiv.classList.contains("active")) {
-        RightMenuDiv.classList.remove("active");
-    }
-    else {
-        RightMenuDiv.classList.add("active");
-    }
 }
