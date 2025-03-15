@@ -159,7 +159,7 @@ a>.main-btn {
 }
 
 #point-system {
-    grid-column: span 2;
+    grid-column: span 3;
 }
 
 
@@ -171,14 +171,12 @@ a>.main-btn {
 
     #buttons {
         width: calc(100svw - 0.5rem);
+        grid-template-rows: repeat(2, 1fr);
+        aspect-ratio: 1.5;
     }
 
     #point-system {
         display: none;
-    }
-
-    #about-btn {
-        grid-column: span 3;
     }
 }
 
