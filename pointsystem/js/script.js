@@ -1432,7 +1432,7 @@ function UpdateChanger(mode = "single") {
             SetDialogState("remove-name-dialog", 1);
         }
         img = document.createElement("img");
-        img.src = "icons/remove.png";
+        img.src = "img/icons/remove.png";
         remove.appendChild(img);
         container.appendChild(remove);
         rename = document.createElement("button");
@@ -1441,14 +1441,14 @@ function UpdateChanger(mode = "single") {
             SetDialogState("rename-name-dialog", 1);
         }
         img = document.createElement("img");
-        img.src = "icons/rename.png";
+        img.src = "img/icons/rename.png";
         img.classList.add("invertable-icon");
         rename.appendChild(img);
         container.appendChild(rename);
         check = document.createElement("button");
         img = document.createElement("img");
         img.classList.add("invertable-icon");
-        img.src = "icons/check.png";
+        img.src = "img/icons/check.png";
         check.appendChild(img);
         check.onclick = (event) => {
             if (UserSettings.system.PointsMode == "name") {
@@ -1474,7 +1474,7 @@ function UpdateChanger(mode = "single") {
         circle.style.transform = "rotateZ(" + ((length + i) / (length + 2) * -360) + "deg)";
         icon = document.createElement("img");
         if (i == 0) {
-            icon.src = "icons/rename.png";
+            icon.src = "img/icons/rename.png";
             icon.classList.add("invertable-icon");
             circle.onclick = () => {
                 RenameNameText.innerHTML = "Rename <span class='bold'>" + SelectedName + "</span>";
@@ -1484,7 +1484,7 @@ function UpdateChanger(mode = "single") {
             }
         }
         else if (i == 1) {
-            icon.src = "icons/remove.png";
+            icon.src = "img/icons/remove.png";
             circle.onclick = () => {
                 RemoveNameText.innerHTML = "Remove <span class='bold'>" + SelectedName + "</span> from the list?";
                 SetDialogState("remove-name-dialog", 1);
@@ -1750,7 +1750,7 @@ function ViewNamePoints(name) {
         title.appendChild(NameDiv);
         button = document.createElement("button");
         img = document.createElement("img");
-        img.src = "icons/rename.png";
+        img.src = "img/icons/rename.png";
         img.classList.add("invertable-icon");
         button.appendChild(img);
         button.style.marginLeft = "0.5rem";
@@ -1761,7 +1761,7 @@ function ViewNamePoints(name) {
         title.appendChild(button);
         button = document.createElement("button");
         img = document.createElement("img");
-        img.src = "icons/remove.png";
+        img.src = "img/icons/remove.png";
         button.appendChild(img);
         button.onclick = () => {
             RemoveNameText.innerHTML = "Remove <span class='bold'>" + SelectedName + "</span> from the list?";

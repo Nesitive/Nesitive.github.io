@@ -4,14 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nesitive</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <div class="ui">
-        Nesitive
+    <div id="main-section">
+        <img id="background-img" src="img/background.jpeg">
+        <div id="buttons-wrapper">
+            <div id="buttons">
+                <a href="news/index.html" id="news-btn">
+                    <button class="ui main-btn">
+                        <div>News</div>
+                        <div class="sub">News from government bill searches to you, in a way that's as unbiased as possible. Don't believe me? Look up the ID and see for yourself.</div>
+                    </button>
+                </a>        
+                <a href="pointsystem/index.html" id="point-system">
+                    <button class="ui main-btn">
+                        <div>Point System</div>
+                        <div class="sub">Visually track behaviors, scores, and just about anything</div>
+                    </button>
+                </a>        
+                <a href="#design-section" id="about-btn">
+                    <button class="ui main-btn">
+                        <div>About</div>
+                        <div class="sub">Learn about what I do and what I make</div>
+                    </button>
+                </a>        
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
+    <div id="top-bar">
+        <div class="ui" id="top-menu">
+            <div id="logo">
+                <img src="img/icons/logo.svg">
+            </div>
+            <div>Nesitive</div>
+        </div>
+    </div>
+    <div id="design-section">
+        <div>
+            <div class="center">
+                <h1>When a creator gets tired of stupid things...</h1>
+            </div>
+            <div>
+                <p>Sometimes, people come across a bad website, a vomit-inducing graphic, or a poorly made piece of software. When that happens, normal people go to social media to complain and start riots. I go to my computer and make a fixed version.</p><p>If you want an example, use the buttons below.</p>
+            </div>
+            <div class="ui" id="bad-design-buttons">
+                <button onclick="SummonEyesore()">Summon Eyesore</button>
+                <button>Fix Eyesore</button>
+                <button>Reset</button>
+            </div>
+        </div>
+        <div id="design-image" class="image-wrapper hidden">
+            <div id="bad-design-example">
+                <div>GRaphic design is My Passion</div>
+            </div>
+            <div id="good-design-example">
+
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
 </body>
 
 </html>
