@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nesitive News Episode 1</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="video-page-body">
+    <div id="video-wrapper">
+        <video></video>
+    </div>
+    <div id="bottom-bar" class="active">
+        <button class="ui" id="play-button" onclick="VideoPlayPause()">
+            <div id="play-button-icon" class="paused">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </button>
+        <div class="ui" id="video-bar">
+            <div id="video-bar-text-left">--:--</div>
+            <div id="video-bar-fill"></div>
+            <div id="video-bar-text-right">--:--</div>
+        </div>
+        <button class="ui" id="volume-button">
+            <img src="img/volume.png" class="icon-fill">
+            <div class="ui" id="volume-slider">
+                <input type="range" id="volume-slider-input" min="0" max="1" step="0.05">
+            </div>
+        </button>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
