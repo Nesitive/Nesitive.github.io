@@ -1,9 +1,9 @@
 // Elements
-PlayButtonIcon = document.getElementById("play-button-icon");
 BottomBar = document.getElementById("bottom-bar");
-FullscreenButton = document.getElementById("fullscreen-button");
 CurrentVideo = document.getElementById("current-video");
+FullscreenButton = document.getElementById("fullscreen-button");
 NextVideo = document.getElementById("next-video");
+PlayButtonIcon = document.getElementById("play-button-icon");
 VideoBarFill = document.getElementById("video-bar-fill");
 VideoBarTextLeft = document.getElementById("video-bar-text-left");
 VideoBarTextRight = document.getElementById("video-bar-text-right");
@@ -12,54 +12,60 @@ VolumeSlider = document.getElementById("volume-slider");
 VolumeSliderInput = document.getElementById("volume-slider-input");
 
 // Variables
+SegmentNumber = 0;
 VideoBarDragging = false;
+VideoDuration = parseInt(VideoWrapper.dataset.duration);
+VideoID = VideoWrapper.dataset.videoid;
 
 // Load video
-src = "video/1-0.webm";
 if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
     CurrentVideo.autoplay = true;
 }
-CurrentVideo.addEventListener("loadeddata", () => {
-    VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
-    VideoBarTextRight.innerHTML = ToMMSS(CurrentVideo.currentTime - 864);
-})
-CurrentVideo.src = src;
-
-
-// Video player
-CurrentVideo.addEventListener("ended", () => {
-    CurrentVideo.src = CurrentVideo.src.substring(0, CurrentVideo.src.indexOf("-") + 1) + (parseInt(CurrentVideo.src.substring(CurrentVideo.src.indexOf("-") + 1)) + 1) + ".webm";
-    CurrentVideo.play();
-});
+VideoBarTextLeft.innerHTML = ToMMSS(0);
+VideoBarTextRight.innerHTML = ToMMSS(0 - VideoDuration);
+PreloadVideo("video/" + VideoID + "-0.webm");
+LoadVideo();
+PreloadVideo("video/" + VideoID + "-1.webm");
 
 
 // Video bar
 setInterval(() => {
     if (!CurrentVideo.paused) {
         VideoBarFill.animate({
-            width: (100 * (CurrentVideo.currentTime / 864)) + "%"
+            width: (100 * (((120 * SegmentNumber) + CurrentVideo.currentTime) / VideoDuration)) + "%"
         }, {duration: 100, fill: "forwards"});
-        VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
-        VideoBarTextRight.innerHTML = ToMMSS(CurrentVideo.currentTime - 864);
+        VideoBarTextLeft.innerHTML = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime);
+        VideoBarTextRight.innerHTML = ToMMSS(CurrentVideo.currentTime - VideoDuration);
+        if ((CurrentVideo.duration - CurrentVideo.currentTime) < 0.2) {
+            PlayNextSegment();
+        }
     }
 }, 100);
 VideoBarFill.parentNode.addEventListener("mousedown", (event) => {
-    VideoSeek(event.clientX);
+    VideoBarSeek(event.clientX);
     VideoBarDragging = true
 })
 document.addEventListener("mousemove", (event) => {
     if (VideoBarDragging) {
-        VideoSeek(event.clientX);
+        VideoBarSeek(event.clientX);
     }
 })
 document.addEventListener("mouseup", (event) => {
     VideoBarDragging = false
+    if (!PlayButtonIcon.classList.contains("paused")) {
+        CurrentVideo.play();
+    }
 })
 VideoBarFill.parentNode.addEventListener("touchstart", (event) => {
-    VideoSeek(event.touches[0].clientX);
+    VideoBarSeek(event.touches[0].clientX);
 })
 VideoBarFill.parentNode.addEventListener("touchmove", (event) => {
-    VideoSeek(event.touches[0].clientX);
+    VideoBarSeek(event.touches[0].clientX);
+})
+VideoBarFill.parentNode.addEventListener("touchend", (event) => {
+    if (!PlayButtonIcon.classList.contains("paused")) {
+        CurrentVideo.play();
+    }
 })
 VolumeSliderInput.value = CurrentVideo.volume;
 VolumeSliderInput.oninput = () => {
@@ -82,8 +88,23 @@ BottomBar.onclick = (event) => {
 
 
 // Functions
-function PreloadVideo() {
-    
+function LoadVideo() {
+    CurrentVideo.id = "next-video";
+    NextVideo.id = "current-video";
+    CurrentVideo = document.getElementById("current-video");
+    NextVideo = document.getElementById("next-video");
+    VideoWrapper.querySelector("div").insertBefore(NextVideo, CurrentVideo);
+}
+
+function PlayNextSegment() {
+    LoadVideo();
+    SegmentNumber++;
+    PreloadVideo(CurrentVideo.src.substring(0, CurrentVideo.src.indexOf("-") + 1) + (parseInt(CurrentVideo.src.substring(CurrentVideo.src.indexOf("-") + 1)) + 1) + ".webm");
+    CurrentVideo.play();
+}
+
+function PreloadVideo(src) {
+    NextVideo.src = src;
 }
 
 function ToggleBottomBar(event) {
@@ -103,15 +124,32 @@ function ToMMSS(n) {
     else {
         sign = "";
     }
-    nmod = n;
-    mins = Math.floor(n / 60);
+    nmod = Math.round(n);
+    mins = Math.floor(nmod / 60);
     nmod -= (mins * 60);
     mins = mins.toString();
-    secs = Math.round(nmod).toString();
+    secs = nmod.toString();
     if (secs.length == 1) {
         secs = "0" + secs;
     }
     return(sign + mins + ":" + secs);
+}
+
+function VideoBarSeek(clientX) {
+    rect = VideoBarFill.parentNode.getBoundingClientRect();
+    left = rect.left - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.125);
+    width = rect.width - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.25);
+    if (clientX < left) {
+        clientX = left;
+    }
+    if (clientX > (left + width)) {
+        clientX = (left + width)
+    }
+    VideoBarFill.animate({
+        width: (100 * (clientX - left) / width) + "%"
+    }, {duration: 100, fill: "forwards"});
+    duration = VideoDuration * (clientX - left) / width;
+    VideoSeek(duration);
 }
 
 function VideoPlayPause() {
@@ -125,22 +163,16 @@ function VideoPlayPause() {
     }
 }
 
-function VideoSeek(clientX) {
-    rect = VideoBarFill.parentNode.getBoundingClientRect();
-    left = rect.left - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.125);
-    width = rect.width - (parseFloat(getComputedStyle(document.documentElement).fontSize) * 0.25);
-    if (clientX < left) {
-        clientX = left;
+function VideoSeek(duration) {
+    SegmentNumber = Math.floor(duration / 120);
+    VideoSource = "video/" + VideoID + "-" + SegmentNumber + ".webm"
+    if (!CurrentVideo.src.endsWith(VideoSource)) {
+        CurrentVideo.src = VideoSource;
+        PreloadVideo(CurrentVideo.src.substring(0, CurrentVideo.src.indexOf("-") + 1) + (parseInt(CurrentVideo.src.substring(CurrentVideo.src.indexOf("-") + 1)) + 1) + ".webm");
     }
-    if (clientX > (left + width)) {
-        clientX = (left + width)
-    }
-    VideoBarFill.animate({
-        width: (100 * (clientX - left) / width) + "%"
-    }, {duration: 100, fill: "forwards"});
-    CurrentVideo.currentTime = 864 * (clientX - left) / width;
-    VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
-    VideoTimeRemaining = ToMMSS(CurrentVideo.currentTime - 864);
+    CurrentVideo.currentTime = duration - (120 * SegmentNumber);
+    VideoBarTextLeft.innerHTML = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime);
+    VideoTimeRemaining = ToMMSS(CurrentVideo.currentTime - VideoDuration);
     if (!VideoTimeRemaining.startsWith("-")) {
         VideoTimeRemaining = "-" + VideoTimeRemaining;
     }
