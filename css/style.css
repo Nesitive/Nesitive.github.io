@@ -64,7 +64,7 @@ button:active {
     position: fixed;
     left: 0px;
     top: 0px;
-    width: 100svw;
+    width: calc(100svw - 0.5rem);
     padding: 0.25rem;
     text-align: center;
 }
