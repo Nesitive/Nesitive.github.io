@@ -1,7 +1,9 @@
 // Elements
 PlayButtonIcon = document.getElementById("play-button-icon");
 BottomBar = document.getElementById("bottom-bar");
-video = document.querySelector("video");
+FullscreenButton = document.getElementById("fullscreen-button");
+CurrentVideo = document.getElementById("current-video");
+NextVideo = document.getElementById("next-video");
 VideoBarFill = document.getElementById("video-bar-fill");
 VideoBarTextLeft = document.getElementById("video-bar-text-left");
 VideoBarTextRight = document.getElementById("video-bar-text-right");
@@ -13,25 +15,32 @@ VolumeSliderInput = document.getElementById("volume-slider-input");
 VideoBarDragging = false;
 
 // Load video
-src = "video/1.webm";
+src = "video/1-0.webm";
 if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-    video.autoplay = true;
+    CurrentVideo.autoplay = true;
 }
-video.addEventListener("loadeddata", () => {
-    VideoBarTextLeft.innerHTML = ToMMSS(video.currentTime);
-    VideoBarTextRight.innerHTML = ToMMSS(video.currentTime - video.duration);
+CurrentVideo.addEventListener("loadeddata", () => {
+    VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
+    VideoBarTextRight.innerHTML = ToMMSS(CurrentVideo.currentTime - 864);
 })
-video.src = src;
+CurrentVideo.src = src;
+
+
+// Video player
+CurrentVideo.addEventListener("ended", () => {
+    CurrentVideo.src = CurrentVideo.src.substring(0, CurrentVideo.src.indexOf("-") + 1) + (parseInt(CurrentVideo.src.substring(CurrentVideo.src.indexOf("-") + 1)) + 1) + ".webm";
+    CurrentVideo.play();
+});
 
 
 // Video bar
 setInterval(() => {
-    if (!video.paused) {
+    if (!CurrentVideo.paused) {
         VideoBarFill.animate({
-            width: (100 * (video.currentTime / video.duration)) + "%"
+            width: (100 * (CurrentVideo.currentTime / 864)) + "%"
         }, {duration: 100, fill: "forwards"});
-        VideoBarTextLeft.innerHTML = ToMMSS(video.currentTime);
-        VideoBarTextRight.innerHTML = ToMMSS(video.currentTime - video.duration);
+        VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
+        VideoBarTextRight.innerHTML = ToMMSS(CurrentVideo.currentTime - 864);
     }
 }, 100);
 VideoBarFill.parentNode.addEventListener("mousedown", (event) => {
@@ -52,9 +61,9 @@ VideoBarFill.parentNode.addEventListener("touchstart", (event) => {
 VideoBarFill.parentNode.addEventListener("touchmove", (event) => {
     VideoSeek(event.touches[0].clientX);
 })
-VolumeSliderInput.value = video.volume;
+VolumeSliderInput.value = CurrentVideo.volume;
 VolumeSliderInput.oninput = () => {
-    video.volume = VolumeSliderInput.value;
+    CurrentVideo.volume = VolumeSliderInput.value;
 }
 VolumeButton.onclick = () => {
     if (VolumeSlider.classList.contains("active")) {
@@ -73,6 +82,10 @@ BottomBar.onclick = (event) => {
 
 
 // Functions
+function PreloadVideo() {
+    
+}
+
 function ToggleBottomBar(event) {
     if (BottomBar.classList.contains("active")) {
         BottomBar.classList.remove("active");
@@ -102,12 +115,12 @@ function ToMMSS(n) {
 }
 
 function VideoPlayPause() {
-    if (video.paused) {
-        video.play();
+    if (CurrentVideo.paused) {
+        CurrentVideo.play();
         PlayButtonIcon.classList.remove("paused");
     }
     else {        
-        video.pause();
+        CurrentVideo.pause();
         PlayButtonIcon.classList.add("paused");
     }
 }
@@ -125,9 +138,9 @@ function VideoSeek(clientX) {
     VideoBarFill.animate({
         width: (100 * (clientX - left) / width) + "%"
     }, {duration: 100, fill: "forwards"});
-    video.currentTime = video.duration * (clientX - left) / width
-    VideoBarTextLeft.innerHTML = ToMMSS(video.currentTime);
-    VideoTimeRemaining = ToMMSS(video.currentTime - video.duration);
+    CurrentVideo.currentTime = 864 * (clientX - left) / width;
+    VideoBarTextLeft.innerHTML = ToMMSS(CurrentVideo.currentTime);
+    VideoTimeRemaining = ToMMSS(CurrentVideo.currentTime - 864);
     if (!VideoTimeRemaining.startsWith("-")) {
         VideoTimeRemaining = "-" + VideoTimeRemaining;
     }
