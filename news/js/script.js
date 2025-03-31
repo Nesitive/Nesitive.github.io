@@ -32,6 +32,12 @@ LoadVideo();
 PreloadVideo("video/" + VideoID + "-1.webm");
 
 
+// FREAK SAFARI
+if (navigator.userAgent.indexOf("Safari") != -1) {
+    document.getElementById("freak-safari").style = "";
+}
+
+
 // Video bar
 setInterval(() => {
     if (!CurrentVideo.paused) {

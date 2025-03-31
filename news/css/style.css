@@ -270,6 +270,28 @@ a {
 }
 
 
+/* FREAK SAFARI */
+#freak-safari {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: calc(100% - 2rem);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.60);
+    backdrop-filter: blur(1rem);
+    padding: 1rem;
+    font-family: "Open Sans";
+    z-index: 99;
+}
+
+#freak-safari>h1 {
+    font-weight: 300;
+}
+
+#freak-safari>p {
+    font-weight: 400;
+}
+
 /* Mobile */
 @media screen and (max-width: 100svh) {
     :root {
