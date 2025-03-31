@@ -309,6 +309,10 @@ a {
     #progress-bars {
         margin-left: 0.5rem;
     }
+
+    #logo {
+        height: 9.6rem;
+    }
 }
 
 
