@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nesitive News Episode 1</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="video-page-body">
+    <div id="video-wrapper" data-duration="864" data-videoid="1" data-segments="8">
+        <div id="video-container">
+            <video id="next-video"></video>
+            <video id="current-video"></video>
+            <div id="freak-safari" style="display: none;">
+                <h1>Safari is currently not supported.</h1>
+                <p>After trying 10+ solutions from StackOverflow, I could not get the video player working in Safari. This is because Apple likes to think different even when it's an objectively worse way of doing things that doesn't even work. I had to make the player in a kind of weird way to work with the file size limit of GitHub Pages.</p>
+                <p><a href="https://github.com/Nesitive/Nesitive.github.io/tree/main/news"><u>My source code is here</u></a> if anyone wants to tackle my problem. It sucks currently, but at least it works. Whoever makes a working solution first will get a shout-out by GitHub username (or another name, if you specify it) in the first episode I upload after their solution is implemented.</p>
+            </div>
+        </div>
+    </div>
+    <div id="bottom-bar" class="active">
+        <button class="ui" id="play-button" onclick="VideoPlayPause()">
+            <div id="play-button-icon" class="paused">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </button>
+        <div class="ui" id="video-bar">
+            <div id="video-bar-text-left">--:--</div>
+            <div id="video-bar-fill"></div>
+            <div id="video-bar-text-right">--:--</div>
+        </div>
+        <button class="ui" id="volume-button">
+            <img src="img/volume.png" class="icon-fill">
+            <div class="ui" id="volume-slider">
+                <input type="range" id="volume-slider-input" min="0" max="1" step="0.05">
+            </div>
+        </button>
+        <button class="ui" id="fullscreen-button" onclick="ToggleVideoFullscreen()">
+            <img src="img/fullscreen.png" class="icon-fill">
+        </button>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
