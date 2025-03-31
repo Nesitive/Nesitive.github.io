@@ -46,7 +46,7 @@ setInterval(() => {
         }, {duration: 100, fill: "forwards"});
         VideoBarTextLeft.innerHTML = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime);
         VideoBarTextRight.innerHTML = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime - VideoDuration);
-        if ((CurrentVideo.duration - CurrentVideo.currentTime) < 0.2) {
+        if ((CurrentVideo.duration - CurrentVideo.currentTime) < 0.1) {
             PlayNextSegment();
         }
     }
@@ -109,6 +109,20 @@ BottomBar.onmouseleave = () => {
 }
 
 
+// Keybinds
+document.onkeydown = (event) => {
+    if (event.key == "ArrowRight") {
+        VideoJump(10);
+    }
+    else if (event.key == "ArrowLeft") {
+        VideoJump(-10);
+    }
+    else if (event.key == " " || event.key.toLowerCase() == "p") {
+        VideoPlayPause();
+    }
+}
+
+
 // Functions
 function LoadVideo() {
     CurrentVideo.id = "next-video";
@@ -135,12 +149,24 @@ function PreloadVideo(src) {
     NextVideo.src = src;
 }
 
-function ToggleBottomBar(event) {
+function ToggleBottomBar() {
     if (BottomBar.classList.contains("active")) {
         BottomBar.classList.remove("active");
     }
     else {
         BottomBar.classList.add("active");
+    }
+}
+
+function ToggleVideoFullscreen() {
+    if (FullscreenButton.classList.contains("active")) {
+        FullscreenButton.classList.remove("active");
+        document.body.requestFullscreen();
+        document.exitFullscreen();
+    }
+    else {
+        FullscreenButton.classList.add("active");
+        document.body.requestFullscreen();
     }
 }
 
@@ -177,19 +203,16 @@ function VideoBarSeek(clientX) {
     VideoBarFill.animate({
         width: (100 * (clientX - left) / width) + "%"
     }, {duration: 100, fill: "forwards"});
-    duration = VideoDuration * (clientX - left) / width;
-    VideoSeek(duration);
+    time = VideoDuration * (clientX - left) / width;
+    VideoSeek(time);
 }
 
-function ToggleVideoFullscreen() {
-    if (FullscreenButton.classList.contains("active")) {
-        FullscreenButton.classList.remove("active");
-        document.body.requestFullscreen();
-        document.exitFullscreen();
-    }
-    else {
-        FullscreenButton.classList.add("active");
-        document.body.requestFullscreen();
+function VideoJump(sec) {
+    BottomBar.classList.add("active");
+    BottomBarHideTime = new Date().getTime() + BottomBarAutoHideDuration;
+    VideoSeek((120 * SegmentNumber) + CurrentVideo.currentTime + sec);
+    if (!PlayButtonIcon.classList.contains("paused")) {
+        CurrentVideo.play();
     }
 }
 
@@ -205,8 +228,8 @@ function VideoPlayPause() {
     BottomBarHideTime = new Date().getTime() + BottomBarAutoHideDuration;
 }
 
-function VideoSeek(duration) {
-    SegmentNumber = Math.floor(duration / 120);
+function VideoSeek(time) {
+    SegmentNumber = Math.floor(time / 120);
     VideoSource = "video/" + VideoID + "-" + SegmentNumber + ".webm"
     if (!CurrentVideo.src.endsWith(VideoSource)) {
         CurrentVideo.src = VideoSource;
@@ -214,7 +237,7 @@ function VideoSeek(duration) {
             PreloadVideo(CurrentVideo.src.substring(0, CurrentVideo.src.indexOf("-") + 1) + (parseInt(CurrentVideo.src.substring(CurrentVideo.src.indexOf("-") + 1)) + 1) + ".webm");
         }
     }
-    CurrentVideo.currentTime = duration - (120 * SegmentNumber);
+    CurrentVideo.currentTime = time - (120 * SegmentNumber);
     VideoBarTextLeft.innerHTML = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime);
     VideoTimeRemaining = ToMMSS((120 * SegmentNumber) + CurrentVideo.currentTime - VideoDuration);
     if (!VideoTimeRemaining.startsWith("-")) {
