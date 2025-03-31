@@ -117,7 +117,10 @@ document.onkeydown = (event) => {
     else if (event.key == "ArrowLeft") {
         VideoJump(-10);
     }
-    else if (event.key == " " || event.key.toLowerCase() == "p") {
+    else if (event.key.toLowerCase() == "f") {
+        ToggleVideoFullscreen();
+    }
+    else if ((event.key == " " && document.activeElement.tagName != "BUTTON") || event.key.toLowerCase() == "p") {
         VideoPlayPause();
     }
 }
@@ -244,4 +247,7 @@ function VideoSeek(time) {
         VideoTimeRemaining = "-" + VideoTimeRemaining;
     }
     VideoBarTextRight.innerHTML = VideoTimeRemaining;
+    VideoBarFill.animate({
+        width: (100 * (((120 * SegmentNumber) + CurrentVideo.currentTime) / VideoDuration)) + "%"
+    }, {duration: 100, fill: "forwards"});
 }
