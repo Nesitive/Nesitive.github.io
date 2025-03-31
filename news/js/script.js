@@ -33,7 +33,7 @@ PreloadVideo("video/" + VideoID + "-1.webm");
 
 
 // FREAK SAFARI
-if (navigator.userAgent.indexOf("Safari") != -1) {
+if (navigator.userAgent.indexOf("Safari") != -1 && navigator.userAgent.indexOf("Chrome") == -1) {
     document.getElementById("freak-safari").style = "";
 }
 
