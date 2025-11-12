@@ -1,0 +1,188 @@
+@import url(https://fonts.bunny.net/css?family=open-sans:300,400);
+@import url(https://fonts.bunny.net/css?family=comic-neue:700);
+
+:root {
+    background-color: #555;
+    font-size: 32px;
+    color: #fff;
+    font-family: "Open Sans";
+}
+
+html, body {
+    overflow-x: hidden;
+    position: relative;
+    margin: 0px;
+    min-height: 100svh;
+}
+
+html {
+    position: unset;
+}
+
+.ui {
+    background-color: rgba(0, 0, 0, 0.60);
+    border: 0.125rem solid #000;
+    backdrop-filter: blur(0.125rem);
+}
+
+.noborder {
+    border: none;
+}
+
+.nested {
+    background: none;
+    backdrop-filter: none;
+    border-color: #fff;
+}
+
+button {
+    font-size: 1rem;
+    color: #fff;
+    padding: 0px;
+    padding-bottom: 0.125rem;
+    cursor: pointer;
+}
+
+button:active {
+    color: #b0b0b0;
+}
+
+#background-img {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100svw;
+    height: 100svh;
+    object-fit: cover;
+    z-index: -999;
+    filter: brightness(80%);
+}
+
+
+/* Menus */
+#top-bar {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: calc(100svw - 0.5rem);
+    padding: 0.25rem;
+    text-align: center;
+}
+
+#top-menu {
+    display: inline-flex;
+    z-index: 1;
+    left: 0.25rem;
+    top: 0.25rem;
+}
+
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 0.03125rem solid #000;
+    aspect-ratio: 1;
+}
+
+#logo>img {
+    padding: 0px 0.1875rem;
+    height: 1rem;
+}
+
+#top-menu>div:nth-last-child(1) {
+    padding: 0px 0.25rem;
+    border-left: 0.03125rem solid #000;
+}
+
+
+/* Main section */
+#main-section {
+    position: relative;
+    width: 100svw;
+    height: 100svh;
+}
+
+#buttons-wrapper {
+    position: absolute;
+    display: flex;
+    left: 0px;
+    top: 0px;
+    width: 100svw;
+    height: 100svh;
+    align-items: center;
+    justify-content: center;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    aspect-ratio: 1;
+    gap: 0.125rem;
+}
+
+#buttons>a {
+    position: relative;
+}
+
+a>.main-btn {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.main-btn {
+    text-align: left;
+}
+
+.main-btn>div {
+    position: absolute;
+    left: 0.25rem;
+    top: 0.125rem;
+    width: calc(100% - 0.5rem);
+    font-weight: 300;
+}
+
+.main-btn>div.sub {
+    top: unset;
+    bottom: 0.25rem;
+    font-size: 0.5rem;
+    font-weight: 400;
+    color: #b0b0b0;
+}
+
+#news-btn {
+    grid-row: span 2;
+    grid-column: span 3;
+}
+
+#point-system {
+    grid-column: span 3;
+}
+
+
+/* Mobile */
+@media screen and (max-width: 100svh) {
+    :root {
+        font-size: 7vmin;
+    }
+
+    #buttons {
+        width: calc(100svw - 0.5rem);
+        grid-template-rows: repeat(2, 1fr);
+        aspect-ratio: 1.5;
+    }
+
+    #point-system {
+        display: none;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width: 100svh) {
+    #buttons {
+        height: 66.67svh;
+    }
+}
