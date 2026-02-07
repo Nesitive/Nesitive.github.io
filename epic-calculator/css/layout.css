@@ -1,0 +1,24 @@
+#master {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100svw;
+  height: 100svh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+#master>button,
+#master>input {
+  font-size: 6.667svh;
+}
+
+#current-expression {
+  grid-column: 1 / 5;
+}
+
+#history {
+  grid-column: 1 / 5;
+  grid-row: 1 / 5;
+}

@@ -5,6 +5,30 @@
     <link rel="stylesheet" type="text/css" href="css/theme.css">
   </head>
   <body>
+    <div id="master">
+      <div id="history"></div>
+      <input type="text" id="current-expression">
+      <button>&lt;</button>
+      <button onclick="InputClear()">C</button>
+      <button>%</button>
+      <button onclick="InputAppend(this.innerText)">/</button>
+      <button onclick="InputAppend(this.innerText)">7</button>
+      <button onclick="InputAppend(this.innerText)">8</button>
+      <button onclick="InputAppend(this.innerText)">9</button>
+      <button onclick="InputAppend(this.innerText)">*</button>
+      <button onclick="InputAppend(this.innerText)">4</button>
+      <button onclick="InputAppend(this.innerText)">5</button>
+      <button onclick="InputAppend(this.innerText)">6</button>
+      <button onclick="InputAppend(this.innerText)">-</button>
+      <button onclick="InputAppend(this.innerText)">1</button>
+      <button onclick="InputAppend(this.innerText)">2</button>
+      <button onclick="InputAppend(this.innerText)">3</button>
+      <button onclick="InputAppend(this.innerText)">+</button>
+      <button>(-)</button>
+      <button onclick="InputAppend(this.innerText)">0</button>
+      <button onclick="InputAppend(this.innerText)">.</button>
+      <button>=</button>
+    </div>
     <script src="js/script.js"></script>
   </body>
 </html>

@@ -1,3 +1,15 @@
 body {
   background-color: #000;
 }
+
+#master>button {
+  background-color: #000;
+  color: #fff;
+  border-radius: 0;
+  border: none;
+  outline: 0.347svh solid #808080;
+}
+
+#master>button:active {
+  background-color: #fff;
+}
