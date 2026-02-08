@@ -11,7 +11,8 @@
 
 #master>button,
 #master>input {
-  font-size: 6.667svh;
+  font-size: 5svh;
+  padding: 0px 2.5svh;
 }
 
 #current-expression {
@@ -21,4 +22,38 @@
 #history {
   grid-column: 1 / 5;
   grid-row: 1 / 5;
+  align-self: end;
+}
+
+.history-item {
+  min-height: 10svh;
+  height: auto;
+  line-height: 10svh;
+  font-size: 5svh;
+  padding: 0px 2.5svh;
+  animation: history-item 0.2s linear;
+}
+
+@keyframes history-item {
+  from {
+    min-height: 0px;
+    max-height: 0px;
+    line-height: 0px;
+    transform: translateY(5svh);
+  }
+
+  to {
+    min-height: 10svh;
+    max-height: 10svh;
+    line-height: 10svh;
+    transform: translateY(0svh);
+  }
+}
+
+.history-input {
+  float: left;
+}
+
+.history-output {
+  float: right;
 }

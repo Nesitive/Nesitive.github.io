@@ -1,15 +1,27 @@
+@import url(https://fonts.bunny.net/css?family=oxanium:300,400,700);
+
+html {
+  font-family: "Oxanium";
+}
+
 body {
   background-color: #000;
 }
 
-#master>button {
+#master>button,
+#master>input {
   background-color: #000;
   color: #fff;
   border-radius: 0;
   border: none;
-  outline: 0.347svh solid #808080;
+  outline: 0.3125svh solid #808080;
+  font-family: inherit;
 }
 
 #master>button:active {
   background-color: #fff;
+}
+
+.history-item {
+  color: #fff;
 }
