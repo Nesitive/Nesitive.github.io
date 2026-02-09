@@ -41,6 +41,7 @@ button {
     padding: 0px;
     padding-bottom: 0.125rem;
     cursor: pointer;
+    font-family: "Open Sans";
 }
 
 button:active {
@@ -116,7 +117,7 @@ button:active {
 #buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(1, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     aspect-ratio: 1;
     gap: 0.125rem;
 }
@@ -153,13 +154,14 @@ a>.main-btn {
     color: #b0b0b0;
 }
 
-#news-btn {
-    grid-row: span 2;
+#me-when-i-see-absolutely-nothing {
     grid-column: span 3;
+    grid-row: span 2;
 }
 
 #point-system {
     grid-column: span 3;
+    grid-row: span 1;
 }
 
 

@@ -1,0 +1,46 @@
+body {
+  overflow: hidden;
+}
+
+#background-image {
+  position: absolute;
+  left: -8vmin;
+  top: -8vmin;
+  width: calc(100svw + 16vmin);
+  height: calc(100svh + 16vmin);
+  object-fit: cover;
+  filter: blur(8vmin);
+}
+
+#canvas-wrapper {
+  position: absolute;
+  display: flex;
+  left: 0px;
+  top: 0px;
+  width: 100svw;
+  height: 100svh;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+  max-width: 80svw;
+  max-height: 80svh;
+  border: 0.5svh solid #000;
+}
+
+input {
+  position: absolute;
+  left: 2svh;
+  bottom: 2svh;
+  right: 2svh;
+  height: 5.5svh;
+  line-height: 5.5svh;
+  z-index: 1;
+  text-align: center;
+  font-size: 2svh;
+
+  border: 0.5svh solid #000;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
