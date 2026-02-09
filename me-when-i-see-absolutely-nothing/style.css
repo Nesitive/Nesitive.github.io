@@ -1,5 +1,9 @@
+@import url(https://fonts.bunny.net/css?family=open-sans:300,400);
+
 body {
   overflow: hidden;
+  background-color: #555;
+  font-family: "Open Sans";
 }
 
 #background-image {
@@ -39,6 +43,7 @@ input {
   z-index: 1;
   text-align: center;
   font-size: 2svh;
+  font-family: "Open Sans";
 
   border: 0.5svh solid #000;
   background-color: rgba(0, 0, 0, 0.6);
