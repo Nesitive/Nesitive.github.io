@@ -44,8 +44,27 @@ input {
   text-align: center;
   font-size: 2svh;
   font-family: "Open Sans";
-
   border: 0.5svh solid #000;
   background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+#inspiration {
+  position: absolute;
+  left: 2svh;
+  top: 2svh;
+  right: 2svh;
+  height: 4.5svh;
+  line-height: 4.5svh;
+  z-index: 1;
+  text-align: center;
+  font-size: 2svh;
+  font-family: "Open Sans";
+  border: 0.5svh solid #000;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+a {
   color: #fff;
 }
