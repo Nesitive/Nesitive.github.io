@@ -9,11 +9,11 @@ function GenerateImage() {
   image.addEventListener("load", (event) => {
     canvas.width = image.width;
     canvas.height = image.height * 1.2;
-    ctx.filter = "blur(4svh) brightness(40%)";
+    ctx.filter = "blur(" + (image.height * 0.1) + "px) brightness(40%)";
     ctx.drawImage(image, image.width * -0.2, image.height * -0.2, image.width * 1.4, image.height * 1.4);
     ctx.filter = "none";
     if (image.height * (16 / 9) < image.width) {
-      ctx.font = (image.height * 0.06) + "px 'Open Sans'";
+      ctx.font = (image.height * 0.08) + "px 'Open Sans'";
     }
     else {
       ctx.font = (image.width * 0.06) + "px 'Open Sans'";
